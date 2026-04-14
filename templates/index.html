@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>株価 年初来推移</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="container">
+    <div class="app-header">
+      <h1>株価 年初来推移</h1>
+      <div class="user-info">
+        <span class="username-label">{{ username }}</span>
+        <a href="{{ url_for('logout') }}" class="logout-btn">ログアウト</a>
+      </div>
+    </div>
+
+    <!-- 入力フォーム -->
+    <div class="input-area">
+      <div class="input-wrapper">
+        <input
+          type="text"
+          id="symbolInput"
+          placeholder="例: AAPL / 7203.T / トヨタ"
+          autocomplete="off"
+          spellcheck="false"
+        />
+        <div class="autocomplete-dropdown hidden" id="acDropdown"></div>
+      </div>
+      <button id="addBtn">追加</button>
+    </div>
+    <p class="hint">米国株はティッカー（AAPL）、日本株はコード+.T（7203.T）または社名で検索できます</p>
+
+    <!-- 登録銘柄リスト -->
+    <div class="symbol-list" id="symbolList"></div>
+
+    <!-- グラフ -->
+    <div class="chart-wrapper">
+      <canvas id="stockChart"></canvas>
+      <div id="loadingMsg" class="loading hidden">データ取得中...</div>
+      <div id="errorMsg" class="error hidden"></div>
+    </div>
+  </div>
+
+  <!-- ユーザー名を JS に渡す -->
+  <script>const APP_USERNAME = {{ username | tojson }};</script>
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>

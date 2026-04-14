@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ログイン - 株価 年初来推移</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+  <div class="auth-container">
+    <h1>株価 年初来推移</h1>
+    <div class="auth-card">
+      <h2>ログイン</h2>
+
+      {% if error %}
+      <div class="auth-error">{{ error }}</div>
+      {% endif %}
+
+      <form method="POST" autocomplete="on">
+        <div class="form-group">
+          <label for="username">ユーザー名</label>
+          <input type="text" id="username" name="username" autocomplete="username" required />
+        </div>
+        <div class="form-group">
+          <label for="password">パスワード</label>
+          <input type="password" id="password" name="password" autocomplete="current-password" required />
+        </div>
+        <button type="submit" class="auth-btn">ログイン</button>
+      </form>
+
+      <p class="auth-link">アカウントをお持ちでない方は <a href="{{ url_for('register') }}">新規登録</a></p>
+    </div>
+  </div>
+</body>
+</html>
