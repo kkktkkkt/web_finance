@@ -88,6 +88,27 @@ def logout():
     logout_user()
     return redirect(url_for("login"))
 
+
+@app.route("/admin/users")
+def admin_users():
+    # 環境変数 ADMIN_KEY と一致するキーをクエリに渡した場合だけ表示
+    # 例: /admin/users?key=your_secret
+    admin_key = os.environ.get("ADMIN_KEY", "")
+    if not admin_key or request.args.get("key") != admin_key:
+        return "unauthorized", 403
+
+    users = User.query.order_by(User.id).all()
+    rows = "".join(f"<tr><td>{u.id}</td><td>{u.username}</td></tr>" for u in users)
+    return f"""
+    <html><head><meta charset='utf-8'>
+    <style>body{{font-family:sans-serif;padding:24px;background:#111;color:#eee}}
+    table{{border-collapse:collapse}}td{{padding:8px 20px;border:1px solid #444}}</style>
+    </head><body>
+    <h2>登録ユーザー（{len(users)} 人）</h2>
+    <table><tr><th>ID</th><th>ユーザー名</th></tr>{rows}</table>
+    </body></html>
+    """
+
 # ── メインページ ────────────────────────────────────
 
 @app.route("/")
